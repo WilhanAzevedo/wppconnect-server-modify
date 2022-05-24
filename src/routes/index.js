@@ -38,6 +38,7 @@ routes.post('/api/:session/:secretkey/generate-token', encryptSession);
 // All Sessions
 routes.get('/api/:secretkey/show-all-sessions', SessionController.showAllSessions);
 routes.post('/api/:secretkey/start-all', SessionController.startAllSessions);
+routes.post('/api/:secretkey/delete-session-folder/:folder', SessionController.deleteSessionFolder);
 
 // Sessions
 routes.get('/api/:session/check-connection-session', verifyToken, SessionController.checkConnectionSession);
@@ -55,19 +56,19 @@ routes.post('/api/:session/restart-service', verifyToken, statusConnection, Sess
 // Messages
 routes.post('/api/:session/send-message', verifyToken, statusConnection, MessageController.sendMessage);
 routes.post(
-  '/api/:session/send-image',
-  upload.single('file'),
-  verifyToken,
-  statusConnection,
-  MessageController.sendImage
+    '/api/:session/send-image',
+    upload.single('file'),
+    verifyToken,
+    statusConnection,
+    MessageController.sendImage
 );
 routes.post('/api/:session/send-reply', verifyToken, statusConnection, MessageController.replyMessage);
 routes.post(
-  '/api/:session/send-file',
-  upload.single('file'),
-  verifyToken,
-  statusConnection,
-  MessageController.sendFile
+    '/api/:session/send-file',
+    upload.single('file'),
+    verifyToken,
+    statusConnection,
+    MessageController.sendFile
 );
 routes.post('/api/:session/send-file-base64', verifyToken, statusConnection, MessageController.sendFile64);
 routes.post('/api/:session/send-voice', verifyToken, statusConnection, MessageController.sendVoice);
@@ -84,22 +85,22 @@ routes.get('/api/:session/all-groups', verifyToken, statusConnection, GroupContr
 routes.get('/api/:session/group-members/:groupId', verifyToken, statusConnection, GroupController.getGroupMembers);
 routes.get('/api/:session/group-admins/:groupId', verifyToken, statusConnection, GroupController.getGroupAdmins);
 routes.get(
-  '/api/:session/group-invite-link/:groupId',
-  verifyToken,
-  statusConnection,
-  GroupController.getGroupInviteLink
+    '/api/:session/group-invite-link/:groupId',
+    verifyToken,
+    statusConnection,
+    GroupController.getGroupInviteLink
 );
 routes.get(
-  '/api/:session/group-revoke-link/:groupId',
-  verifyToken,
-  statusConnection,
-  GroupController.revokeGroupInviteLink
+    '/api/:session/group-revoke-link/:groupId',
+    verifyToken,
+    statusConnection,
+    GroupController.revokeGroupInviteLink
 );
 routes.get(
-  '/api/:session/group-members-ids/:groupId',
-  verifyToken,
-  statusConnection,
-  GroupController.getGroupMembersIds
+    '/api/:session/group-members-ids/:groupId',
+    verifyToken,
+    statusConnection,
+    GroupController.getGroupMembersIds
 );
 routes.post('/api/:session/create-group', verifyToken, statusConnection, GroupController.createGroup);
 routes.post('/api/:session/leave-group', verifyToken, statusConnection, GroupController.leaveGroup);
@@ -107,44 +108,44 @@ routes.post('/api/:session/join-code', verifyToken, statusConnection, GroupContr
 routes.post('/api/:session/add-participant-group', verifyToken, statusConnection, GroupController.addParticipant);
 routes.post('/api/:session/remove-participant-group', verifyToken, statusConnection, GroupController.removeParticipant);
 routes.post(
-  '/api/:session/promote-participant-group',
-  verifyToken,
-  statusConnection,
-  GroupController.promoteParticipant
+    '/api/:session/promote-participant-group',
+    verifyToken,
+    statusConnection,
+    GroupController.promoteParticipant
 );
 routes.post('/api/:session/demote-participant-group', verifyToken, statusConnection, GroupController.demoteParticipant);
 routes.post(
-  '/api/:session/group-info-from-invite-link',
-  verifyToken,
-  statusConnection,
-  GroupController.getGroupInfoFromInviteLink
+    '/api/:session/group-info-from-invite-link',
+    verifyToken,
+    statusConnection,
+    GroupController.getGroupInfoFromInviteLink
 );
 routes.post('/api/:session/group-description', verifyToken, statusConnection, GroupController.setGroupDescription);
 routes.post('/api/:session/group-property', verifyToken, statusConnection, GroupController.setGroupProperty);
 routes.post('/api/:session/group-subject', verifyToken, statusConnection, GroupController.setGroupSubject);
 routes.post('/api/:session/messages-admins-only', verifyToken, statusConnection, GroupController.setMessagesAdminsOnly);
 routes.post(
-  '/api/:session/group-pic',
-  upload.single('file'),
-  verifyToken,
-  statusConnection,
-  GroupController.setGroupProfilePic
+    '/api/:session/group-pic',
+    upload.single('file'),
+    verifyToken,
+    statusConnection,
+    GroupController.setGroupProfilePic
 );
 routes.post('/api/:session/change-privacy-group', verifyToken, statusConnection, GroupController.changePrivacyGroup);
 
 // Chat
 routes.get('/api/:session/all-chats', verifyToken, statusConnection, DeviceController.getAllChats);
 routes.get(
-  '/api/:session/all-chats-with-messages',
-  verifyToken,
-  statusConnection,
-  DeviceController.getAllChatsWithMessages
+    '/api/:session/all-chats-with-messages',
+    verifyToken,
+    statusConnection,
+    DeviceController.getAllChatsWithMessages
 );
 routes.get(
-  '/api/:session/all-messages-in-chat/:phone',
-  verifyToken,
-  statusConnection,
-  DeviceController.getAllMessagesInChat
+    '/api/:session/all-messages-in-chat/:phone',
+    verifyToken,
+    statusConnection,
+    DeviceController.getAllMessagesInChat
 );
 routes.get('/api/:session/all-new-messages', verifyToken, statusConnection, DeviceController.getAllNewMessages);
 routes.get('/api/:session/unread-messages', verifyToken, statusConnection, DeviceController.getUnreadMessages);
@@ -155,16 +156,16 @@ routes.get('/api/:session/chat-is-online/:phone', verifyToken, statusConnection,
 routes.get('/api/:session/last-seen/:phone', verifyToken, statusConnection, DeviceController.getLastSeen);
 routes.get('/api/:session/list-mutes/:type', verifyToken, statusConnection, DeviceController.getListMutes);
 routes.get(
-  '/api/:session/load-messages-in-chat/:phone',
-  verifyToken,
-  statusConnection,
-  DeviceController.loadAndGetAllMessagesInChat
+    '/api/:session/load-messages-in-chat/:phone',
+    verifyToken,
+    statusConnection,
+    DeviceController.loadAndGetAllMessagesInChat
 );
 routes.get(
-  '/api/:session/load-earlier-messages/:phone',
-  verifyToken,
-  statusConnection,
-  DeviceController.loadEarlierMessages
+    '/api/:session/load-earlier-messages/:phone',
+    verifyToken,
+    statusConnection,
+    DeviceController.loadEarlierMessages
 );
 routes.post('/api/:session/archive-chat', verifyToken, statusConnection, DeviceController.archiveChat);
 routes.post('/api/:session/clear-chat', verifyToken, statusConnection, DeviceController.clearChat);
@@ -184,26 +185,26 @@ routes.post('/api/:session/star-message', verifyToken, statusConnection, DeviceC
 // Status
 routes.post('/api/:session/send-text-storie', verifyToken, statusConnection, MessageController.sendTextStorie);
 routes.post(
-  '/api/:session/send-image-storie',
-  upload.single('file'),
-  verifyToken,
-  statusConnection,
-  MessageController.sendImageStorie
+    '/api/:session/send-image-storie',
+    upload.single('file'),
+    verifyToken,
+    statusConnection,
+    MessageController.sendImageStorie
 );
 routes.post(
-  '/api/:session/send-video-storie',
-  upload.single('file'),
-  verifyToken,
-  statusConnection,
-  MessageController.sendVideoStorie
+    '/api/:session/send-video-storie',
+    upload.single('file'),
+    verifyToken,
+    statusConnection,
+    MessageController.sendVideoStorie
 );
 
 // Contact
 routes.get(
-  '/api/:session/check-number-status/:phone',
-  verifyToken,
-  statusConnection,
-  DeviceController.checkNumberStatus
+    '/api/:session/check-number-status/:phone',
+    verifyToken,
+    statusConnection,
+    DeviceController.checkNumberStatus
 );
 routes.get('/api/:session/all-contacts', verifyToken, statusConnection, DeviceController.getAllContacts);
 routes.get('/api/:session/contact/:phone', verifyToken, statusConnection, DeviceController.getContact);
@@ -222,21 +223,21 @@ routes.get('/api/:session/host-device', verifyToken, statusConnection, DeviceCon
 
 // Profile
 routes.post(
-  '/api/:session/profile-pic',
-  upload.single('file'),
-  verifyToken,
-  statusConnection,
-  DeviceController.setProfilePic
+    '/api/:session/profile-pic',
+    upload.single('file'),
+    verifyToken,
+    statusConnection,
+    DeviceController.setProfilePic
 );
 routes.post('/api/:session/profile-status', verifyToken, statusConnection, DeviceController.setProfileStatus);
 routes.post('/api/:session/change-username', verifyToken, statusConnection, DeviceController.setProfileName);
 
 // Business
 routes.get(
-  '/api/:session/get-business-profiles-products',
-  verifyToken,
-  statusConnection,
-  OrderController.getBusinessProfilesProducts
+    '/api/:session/get-business-profiles-products',
+    verifyToken,
+    statusConnection,
+    OrderController.getBusinessProfilesProducts
 );
 routes.get('/api/:session/get-order-by-messageId', verifyToken, statusConnection, OrderController.getOrderbyMsg);
 

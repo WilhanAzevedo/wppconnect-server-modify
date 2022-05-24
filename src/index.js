@@ -30,76 +30,77 @@ import mergeDeep from 'merge-deep';
 import { convert } from './mapper/index';
 
 export function initServer(serverOptions) {
-  const __dirname = path.resolve(path.dirname(''));
-  if (typeof serverOptions !== 'object') {
-    serverOptions = {};
-  }
+    const __dirname = path.resolve(path.dirname(''));
+    if (typeof serverOptions !== 'object') {
+        serverOptions = {};
+    }
 
-  serverOptions = mergeDeep({}, config, serverOptions);
+    serverOptions = mergeDeep({}, config, serverOptions);
 
-  const logger = createLogger(serverOptions.log);
+    const logger = createLogger(serverOptions.log);
 
-  const app = express();
-  const PORT = process.env.PORT || serverOptions.port;
+    const app = express();
+    const PORT = process.env.PORT || serverOptions.port;
 
-  const http = new createServer(app);
-  const io = new Socket(http, {
-    cors: true,
-    origins: ['*'],
-  });
-
-  app.use(cors());
-  app.use(express.json({ limit: '50mb' }));
-  app.use(express.urlencoded({ limit: '50mb', extended: true }));
-  app.use('/files', express.static(path.resolve(__dirname, '..', 'WhatsAppImages')));
-  app.use(boolParser());
-
-  // Add request options
-  app.use((req, res, next) => {
-    req.serverOptions = serverOptions;
-    req.logger = logger;
-    req.io = io;
-
-    var oldSend = res.send;
-
-    res.send = async function (data) {
-      const content = req.headers['content-type'];
-      if (content == 'application/json') {
-        data = JSON.parse(data);
-        if (!data.session) data.session = req.client ? req.client.session : '';
-        if (data.mapper && req.serverOptions.mapper.enable) {
-          data.response = await convert(req.serverOptions.mapper.prefix, data.response, data.mapper);
-          delete data.mapper;
-        }
-      }
-      res.send = oldSend;
-      return res.send(data);
-    };
-    next();
-  });
-
-  io.on('connection', (sock) => {
-    logger.info(`ID: ${sock.id} entrou`);
-
-    sock.on('disconnect', () => {
-      logger.info(`ID: ${sock.id} saiu`);
+    const http = new createServer(app);
+    const io = new Socket(http, {
+        cors: true,
+        origins: ['*'],
     });
-  });
 
-  app.use(routes);
+    app.use(cors());
+    app.use(express.json({ limit: '50mb' }));
+    app.use(express.urlencoded({ limit: '50mb', extended: true }));
+    app.use('/files', express.static(path.resolve(__dirname + '/WhatsAppImages')));
+    app.use(boolParser());
 
-  createFolders();
+    // Add request options
+    app.use((req, res, next) => {
+        req.serverOptions = serverOptions;
+        req.logger = logger;
+        req.io = io;
 
-  http.listen(PORT, () => {
-    logger.info(`Server is running on port: ${PORT}`);
-    logger.info(`\x1b[31m Visit ${serverOptions.host}:${PORT}/api-docs for Swagger docs`);
+        var oldSend = res.send;
 
-    if (serverOptions.startAllSession) startAllSessions(serverOptions, logger);
-  });
+        res.send = async function (data) {
+            const content = req.headers['content-type'];
+            if (content == 'application/json') {
+                data = JSON.parse(data);
+                if (!data.session) data.session = req.client ? req.client.session : '';
+                if (data.mapper && req.serverOptions.mapper.enable) {
+                    data.response = await convert(req.serverOptions.mapper.prefix, data.response, data.mapper);
+                    delete data.mapper;
+                }
+            }
+            res.send = oldSend;
+            return res.send(data);
+        };
+        next();
+    });
 
-  return {
-    app,
-    routes,
-    logger,
-  };
+    io.on('connection', (sock) => {
+        logger.info(`ID: ${sock.id} entrou`);
+
+        sock.on('disconnect', () => {
+            logger.info(`ID: ${sock.id} saiu`);
+        });
+    });
+
+    app.use(routes);
+
+    createFolders();
+
+    http.listen(PORT, () => {
+        logger.info(path.resolve(__dirname + '/WhatsAppImages'));
+        logger.info(`Server is running on port: ${PORT}`);
+        logger.info(`\x1b[31m Visit ${serverOptions.host}:${PORT}/api-docs for Swagger docs`);
+
+        if (serverOptions.startAllSession) startAllSessions(serverOptions, logger);
+    });
+
+    return {
+        app,
+        routes,
+        logger,
+    };
 }
