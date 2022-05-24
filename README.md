@@ -1,4 +1,5 @@
 # WPPConnect Team
+
 access our documentation on [postman](https://documenter.getpostman.com/view/9139457/TzshF4jQ)
 
 ## _WPPConnect Server_
@@ -7,9 +8,9 @@ access our documentation on [postman](https://documenter.getpostman.com/view/913
 
 Wppconnect Server is a ready-to-use API, just download, install, and start using, simple as that.
 
-- Javascript ES6
-- NodeJS
-- Restfull
+-   Javascript ES6
+-   NodeJS
+-   Restfull
 
 ## Our online channels
 
@@ -20,28 +21,28 @@ Wppconnect Server is a ready-to-use API, just download, install, and start using
 
 ## Features
 
-|                                                            |     |
-| ---------------------------------------------------------- | --- |
-| Multiple Sessions                                          | ✔ |
-| Send **text, image, video and docs**                | ✔ |
-| Get **contacts list** | ✔   |
-| Receive messages                                            | ✔ |
-| Open/Close Session                                        | ✔|
-| Change Profile/Username                                         | ✔   |
-| Create Group                                         | ✔ | 
-| Join Group by Invite Code                                         | ✔ | 
-| Webhook                                         | ✔ |
+|                                      |     |
+| ------------------------------------ | --- |
+| Multiple Sessions                    | ✔   |
+| Send **text, image, video and docs** | ✔   |
+| Get **contacts list**                | ✔   |
+| Receive messages                     | ✔   |
+| Open/Close Session                   | ✔   |
+| Change Profile/Username              | ✔   |
+| Create Group                         | ✔   |
+| Join Group by Invite Code            | ✔   |
+| Webhook                              | ✔   |
 
 ## Libraries Used
 
-- WPPConnect
-- Axios
-- Bcrypt
-- Cors
-- Dotenv
-- Express
-- Nodemon
-- SocketIO
+-   WPPConnect
+-   Axios
+-   Bcrypt
+-   Cors
+-   Dotenv
+-   Express
+-   Nodemon
+-   SocketIO
 
 ## Installation
 
@@ -54,16 +55,18 @@ npm install
 ```
 
 ## Run Server
+
 ```sh
 yarn dev
 ```
 
 ## Build Server
+
 ```sh
 yarn build
 ```
 
-------
+---
 
 # Configuration
 
@@ -72,11 +75,15 @@ This server use config.json file to define some options, default values are:
 ```javascript
 {
   /* secret key to genereta access token */
-  "secretKey": "THISISMYSECURETOKEN", 
+  "secretKey": "THISISMYSECURETOKEN",
   "host": "http://localhost",
   "port": "21465",
+  // create userDataDir for each puppeteer instance for working with Multi Device
+  "customUserDataDir": "./userDataDir/",
   // starts all sessions when starting the server.
   "startAllSession": true,
+  // sets the maximum global listeners. 0 = infinity.
+  "maxListeners": 15,
   "webhook": {
     "url": null,
     // automatically downloads files to upload to the webhook
@@ -96,7 +103,7 @@ This server use config.json file to define some options, default values are:
   "log": {
     "level": "error",
     "logger": [ "console", "file" ]
-  }, 
+  },
   "createOptions": {
     "browserArgs": ["--no-sandbox"]
   }
@@ -123,10 +130,10 @@ Using the route:
 
 ```json
 {
-  "status": "Success",
-  "session": "mySession",
-  "token": "$2b$10$duQ5YYV6fojn5qFiFv.aEuY32_SnHgcmxdfxohnjG4EHJ5_Z6QWhe",
-  "full": "wppconnect:$2b$10$duQ5YYV6fojn5qFiFv.aEuY32_SnHgcmxdfxohnjG4EHJ5_Z6QWhe"
+    "status": "Success",
+    "session": "mySession",
+    "token": "$2b$10$duQ5YYV6fojn5qFiFv.aEuY32_SnHgcmxdfxohnjG4EHJ5_Z6QWhe",
+    "full": "wppconnect:$2b$10$duQ5YYV6fojn5qFiFv.aEuY32_SnHgcmxdfxohnjG4EHJ5_Z6QWhe"
 }
 ```
 
@@ -173,4 +180,5 @@ curl -X POST --location "http://localhost:21465/api/mySession/send-message" \
 See the `routes file` for all the routes. [here](/src/routes/index.js) and HTTP [file](/requests.http).
 
 # Swagger UI
-Swagger ui can be found at  `/api-docs`
+
+Swagger ui can be found at `/api-docs`

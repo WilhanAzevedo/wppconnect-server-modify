@@ -27,7 +27,6 @@ import multer from 'multer';
 import uploadConfig from '../config/upload';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
-import { sendButtonsList } from '../controller/messageController';
 
 const upload = multer(uploadConfig);
 const routes = new Router();
@@ -72,6 +71,7 @@ routes.post(
 );
 routes.post('/api/:session/send-file-base64', verifyToken, statusConnection, MessageController.sendFile64);
 routes.post('/api/:session/send-voice', verifyToken, statusConnection, MessageController.sendVoice);
+routes.post('/api/:session/send-voice-base64', verifyToken, statusConnection, MessageController.sendVoice64);
 routes.post('/api/:session/send-status', verifyToken, statusConnection, MessageController.sendStatusText);
 routes.post('/api/:session/send-link-preview', verifyToken, statusConnection, MessageController.sendLinkPreview);
 routes.post('/api/:session/send-location', verifyToken, statusConnection, MessageController.sendLocation);
@@ -220,6 +220,7 @@ routes.post('/api/:session/unblock-contact', verifyToken, statusConnection, Devi
 // Device
 routes.get('/api/:session/get-battery-level', verifyToken, statusConnection, DeviceController.getBatteryLevel);
 routes.get('/api/:session/host-device', verifyToken, statusConnection, DeviceController.getHostDevice);
+routes.get('/api/:session/get-phone-number', verifyToken, statusConnection, DeviceController.getPhoneNumber);
 
 // Profile
 routes.post(

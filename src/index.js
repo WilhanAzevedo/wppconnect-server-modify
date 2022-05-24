@@ -17,7 +17,7 @@
 require('dotenv').config();
 
 import { createLogger } from './util/logger';
-import { createFolders, startAllSessions } from './util/functions';
+import { createFolders, setMaxListners, startAllSessions } from './util/functions';
 import cors from 'cors';
 import express from 'express';
 import { createServer } from 'http';

@@ -13,62 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import fs from 'fs';
-import { download } from './sessionController';
-import { contactToArray, unlinkAsync } from '../util/functions';
-import mime from 'mime-types';
-
 function returnSucess(res, session, phone, data) {
-  res.status(201).json({
-    status: 'Success',
-    response: {
-      message: 'Information retrieved successfully.',
-      contact: phone,
-      session: session,
-      data: data,
-    },
-  });
+    res.status(201).json({
+        status: 'Success',
+        response: {
+            message: 'Information retrieved successfully.',
+            contact: phone,
+            session: session,
+            data: data,
+        },
+    });
 }
 
 function returnError(req, res, session, error) {
-  req.logger.error(error);
-  res.status(400).json({
-    status: 'Error',
-    response: {
-      message: 'Error retrieving information',
-      session: session,
-      log: error,
-    },
-  });
+    req.logger.error(error);
+    res.status(400).json({
+        status: 'Error',
+        response: {
+            message: 'Error retrieving information',
+            session: session,
+            log: error,
+        },
+    });
 }
 
 export async function getBusinessProfilesProducts(req, res) {
-  const session = req.session;
-  const { phone } = req.body;
+    const session = req.session;
+    const { phone } = req.body;
 
-  try {
-    let results = [];
+    try {
+        let results = [];
 
-    for (const contato of phone) {
-      results.push(await req.client.getBusinessProfilesProducts(contato));
+        for (const contato of phone) {
+            results.push(await req.client.getBusinessProfilesProducts(contato));
+        }
+
+        returnSucess(res, session, phone, results);
+    } catch (error) {
+        returnError(req, res, session, error);
     }
-
-    returnSucess(res, session, phone, results);
-  } catch (error) {
-    returnError(req, res, session, error);
-  }
 }
 export async function getOrderbyMsg(req, res) {
-  const session = req.session;
-  const { messageId } = req.body;
+    const session = req.session;
+    const { messageId } = req.body;
 
-  try {
-    let result;
+    try {
+        let result;
 
-    result = await req.client.getOrderbyMsg(messageId);
+        result = await req.client.getOrderbyMsg(messageId);
 
-    returnSucess(res, session, null, result);
-  } catch (error) {
-    returnError(req, res, session, error);
-  }
+        returnSucess(res, session, null, result);
+    } catch (error) {
+        returnError(req, res, session, error);
+    }
 }
